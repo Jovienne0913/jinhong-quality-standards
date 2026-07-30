@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>质量标准知识库 · 知识库</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #f7fafc; color: #2d3748; line-height: 1.7; min-height: 100vh;
+  }
+  a { color: #2563eb; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+    color: #fff; padding: 1.6rem 1.5rem 1.3rem; text-align: center; position: relative;
+  }
+  .header::before{ content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#3b82f6,#1d4ed8);border-radius:14px 14px 0 0; }
+  .header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 0.3rem; }
+  .header .subtitle { font-size: 0.9rem; opacity: 0.88; max-width: 720px; margin: 0 auto; line-height: 1.5; }
+  .header .badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 0.2rem 0.7rem; font-size: 0.75rem; margin-top: 0.6rem; backdrop-filter: blur(4px); }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+  /* 概览 */
+  .sc-overview{ background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 22px;margin:1.5rem 0 18px;box-shadow:0 1px 3px rgba(15,23,42,.05); }
+  .sc-overview .ov-title{ font-size:13px;font-weight:700;color:#1d4ed8;letter-spacing:.04em;margin-bottom:14px;display:flex;align-items:center;gap:6px; }
+  .sc-ov-stats{display:flex;flex-wrap:wrap;gap:26px;}
+  .sc-ov-stat{display:flex;flex-direction:column;}
+  .sc-ov-stat b{font-size:22px;font-weight:800;color:#1e3a8a;line-height:1.1;}
+  .sc-ov-stat span{font-size:12px;color:#64748b;margin-top:4px;}
+  /* 分类导航（吸顶固定） */
+  .cat-nav{position:sticky;top:0;z-index:40;display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px;padding:10px 0;border-bottom:1px solid #e2e8f0;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+  .cat-nav a{padding:0.4rem 0.9rem;border:1px solid #e2e8f0;border-radius:999px;font-size:0.82rem;font-weight:600;color:#475569;background:#fff;transition:all .15s;}
+  .cat-nav a:hover{border-color:#2563eb;color:#2563eb;text-decoration:none;}
+  /* 分类 */
+  .cat{ margin-bottom: 2rem; }
+  .cat-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:0.6rem; margin: 1.2rem 0 1rem; border-left: 4px solid #2563eb; padding-left: 0.8rem; }
+  .cat-title{ font-size: 1.15rem; font-weight: 700; color: #1e3a8a; }
+  .cat-desc{ font-size: 0.85rem; color: #64748b; flex: 1; min-width: 200px; }
+  .cat-count{ font-size: 0.78rem; font-weight: 700; color: #2563eb; background: #eff6ff; border:1px solid #bfdbfe; border-radius: 999px; padding: 0.15rem 0.7rem; }
+  .std-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 1.1rem; }
+  .std-card{ background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:1.1rem 1.2rem; box-shadow:0 1px 3px rgba(0,0,0,.04),0 6px 18px rgba(15,23,42,.05); transition:box-shadow .2s, transform .2s; display:flex; flex-direction:column; }
+  .std-card:hover{ box-shadow:0 4px 14px rgba(0,0,0,.08); transform: translateY(-2px); }
+  .std-head{ display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem; margin-bottom:0.6rem; }
+  .std-nature{ font-size:0.68rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:4px; letter-spacing:0.03em; }
+  .n-force{ background:#fff5f5; color:#c53030; border:1px solid #fed7d7; }
+  .n-rec{ background:#ebf8ff; color:#2563eb; border:1px solid #bee3f8; }
+  .n-q{ background:#faf5ff; color:#6b46c1; border:1px solid #e9d8fd; }
+  .std-code{ font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size:0.82rem; font-weight:700; color:#1e3a8a; }
+  .std-name{ font-size:0.98rem; font-weight:700; color:#1a202c; line-height:1.4; flex:1; min-width:160px; }
+  .std-body{ font-size:0.86rem; color:#4a5568; }
+  .std-scope{ margin-bottom:0.4rem; }
+  .std-scope b{ color:#1e3a8a; }
+  .std-summary{ line-height:1.6; }
+  .std-tags{ display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.6rem; }
+  .std-tag{ font-size:0.7rem; color:#475569; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:4px; padding:0.1rem 0.45rem; }
+  /* 外部标准检索平台（底部常驻悬浮 dock） */
+  body{ padding-bottom: 190px; }
+  .qs-dock{ position:fixed; left:0; right:0; bottom:0; z-index:45; background:rgba(248,250,252,.96); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-top:1px solid #e2e8f0; box-shadow:0 -4px 18px rgba(15,23,42,.10); padding:.55rem 1rem .7rem 170px; }
+  .qs-dock summary{ cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .qs-dock summary::-webkit-details-marker{ display:none; }
+  .qs-dock-sum{ user-select:none; }
+  .qs-dock-tt{ font-size:.95rem; font-weight:700; color:#1e3a8a; }
+  .qs-dock-hint{ font-size:.72rem; color:#94a3b8; }
+  .qs-dock-body{ margin-top:.5rem; }
+  .qs-dock-desc{ font-size:.8rem; color:#64748b; margin-bottom:.5rem; }
+  .qs-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:.8rem; }
+  .qs-card{ background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:1.1rem 1.2rem; box-shadow:0 1px 3px rgba(0,0,0,.04),0 6px 18px rgba(15,23,42,.05); transition:box-shadow .2s, transform .2s; display:flex; flex-direction:column; text-decoration:none; }
+  .qs-card:hover{ box-shadow:0 4px 14px rgba(0,0,0,.08); transform: translateY(-2px); text-decoration:none; }
+  .qs-ico{ font-size:26px; margin-bottom:0.4rem; }
+  .qs-name{ font-size:1rem; font-weight:700; color:#1e3a8a; margin-bottom:0.4rem; }
+  .qs-desc{ font-size:0.84rem; color:#4a5568; line-height:1.6; flex:1; }
+  .qs-link{ font-size:0.8rem; font-weight:600; color:#2563eb; margin-top:0.7rem; word-break:break-all; }
+  /* 返回门户悬浮按钮 */
+  .back-to-portal{ position: fixed; left: 20px; bottom: 20px; z-index: 9999; display: inline-flex; align-items: center; gap: 7px; padding: 12px 20px; border-radius: 999px; background: linear-gradient(135deg,#3b82f6 0%,#1d4ed8 100%); color: #fff; font-family: inherit; font-size: 14px; font-weight: 600; text-decoration: none; box-shadow: 0 6px 20px rgba(29,78,216,.35); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .back-to-portal:hover{ transform: translateY(-2px); box-shadow: 0 10px 28px rgba(29,78,216,.45); text-decoration: none; }
+  .back-to-portal:focus-visible{ outline: 3px solid #fff; outline-offset: 2px; }
+  .back-to-portal .arrow{ font-size: 16px; line-height: 1; }
+  /* Footer */
+  .footer{ text-align:center; padding: 2rem 1rem; border-top:1px solid #e2e8f0; background:#fff; }
+  .footer .update-info{ font-size:0.85rem; color:#a0aec0; }
+  .footer .update-info strong{ color:#4a5568; }
+  .footer .platforms{ font-size:0.78rem; color:#94a3b8; margin-top:0.5rem; }
+  .footer .platforms a{ color:#64748b; margin:0 0.3rem; }
+  .footer .copyright{ font-size:0.78rem; color:#cbd5e0; margin-top:0.5rem; }
+  /* 门禁样式 */
+/* ===== 供应链知识库门禁 (形态A：后端真门禁；前端仅渲染 UX) ===== */
+.sc-gate-mask{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);font-family:inherit;}
+.sc-gate-card{width:380px;max-width:92vw;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(30,58,138,.25);position:relative;}
+.sc-gate-card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#2E7BE4,#1F5FC0);}
+.sc-gate-body{padding:30px 28px 24px;text-align:center;}
+.sc-gate-logo{font-size:34px;line-height:1;margin-bottom:12px;}
+.sc-gate-title{font-size:18px;font-weight:700;color:#1e3a8a;margin-bottom:6px;}
+.sc-gate-sub{font-size:13px;color:#64748b;margin-bottom:18px;line-height:1.5;}
+/* 员工身份核验 */
+.sc-gate-emp{margin:4px auto 6px;max-width:300px;}
+.sc-gate-input{width:100%;padding:12px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px;font-family:inherit;margin-bottom:10px;outline:none;transition:border-color .15s,box-shadow .15s;box-sizing:border-box;}
+.sc-gate-input:focus{border-color:#2E7BE4;box-shadow:0 0 0 3px rgba(46,126,228,.15);}
+.sc-gate-err{font-size:12px;color:#dc2626;min-height:16px;margin-top:2px;}
+.sc-gate-divider{display:flex;align-items:center;gap:10px;color:#94a3b8;font-size:12px;margin:8px 0;}
+.sc-gate-divider::before,.sc-gate-divider::after{content:"";flex:1;height:1px;background:#e5e9f2;}
+/* 企业微信扫码（仅在配置企微凭据时显示） */
+.sc-gate-qr{position:relative;width:200px;height:200px;margin:0 auto 14px;border:1px solid #e5e9f2;border-radius:12px;padding:12px;background:#fff;}
+.sc-gate-qr svg{width:100%;height:100%;display:block;border-radius:4px;}
+.sc-gate-qr iframe{width:100%;height:100%;border:0;border-radius:6px;display:block;}
+.sc-gate-qr .qr-mask{position:absolute;inset:12px;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.93);border-radius:8px;font-size:14px;font-weight:600;color:#334155;}
+.sc-gate-qr.state-scanned .qr-mask,.sc-gate-qr.state-success .qr-mask,.sc-gate-qr.state-expired .qr-mask{display:flex;}
+.sc-gate-qr .qr-badge{font-size:44px;line-height:1;}
+.sc-gate-qr.state-success .qr-badge{color:#10B981;}
+.sc-gate-qr.state-scanned .qr-badge{color:#2E7BE4;}
+.sc-gate-qr.state-expired .qr-badge{color:#F59E0B;}
+.sc-gate-qr .qr-fallback{position:absolute;left:0;right:0;bottom:-22px;font-size:11px;text-align:center;}
+.sc-gate-qr .qr-fallback a{color:#2E7BE4;text-decoration:none;}
+.sc-ent-card{display:none;align-items:center;gap:12px;text-align:left;margin:2px auto 16px;padding:12px 14px;border:1px solid #bfdbfe;border-radius:12px;background:#eff6ff;max-width:290px;}
+.sc-gate-qr.state-success ~ .sc-ent-card{display:flex;}
+.sc-ent-ico{width:40px;height:40px;border-radius:10px;background:#2E7BE4;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.sc-ent-info .t{font-size:11px;color:#64748b;}
+.sc-ent-info .n{font-size:15px;font-weight:700;color:#1e3a8a;line-height:1.3;}
+.sc-ent-info .v{font-size:12px;color:#10B981;font-weight:600;}
+.sc-gate-hint{font-size:13px;color:#64748b;margin-bottom:14px;min-height:20px;}
+.sc-gate-hint b{color:#1d4ed8;}
+.sc-gate-btn{display:block;width:100%;padding:13px;border:none;border-radius:10px;cursor:pointer;background:linear-gradient(135deg,#2E7BE4,#1F5FC0);color:#fff;font-size:15px;font-weight:600;font-family:inherit;transition:transform .15s,box-shadow .15s;}
+.sc-gate-btn:hover:not([disabled]){transform:translateY(-1px);box-shadow:0 8px 20px rgba(46,126,228,.4);}
+.sc-gate-btn:focus-visible{outline:3px solid #fff;outline-offset:2px;}
+.sc-gate-btn[disabled]{opacity:.5;cursor:not-allowed;}
+.sc-gate-demo{display:none;margin-top:14px;font-size:12px;color:#94a3b8;}
+.sc-gate-demo a{color:#2E7BE4;cursor:pointer;text-decoration:none;}
+.sc-gate-demo a:hover{text-decoration:underline;}
+.sc-gate-foot{font-size:11px;color:#cbd5e1;margin-top:8px;}
+@media (max-width:480px){.sc-gate-card{width:100%;max-width:100vw;height:100vh;border-radius:0;display:flex;flex-direction:column;justify-content:center;}}
+@media (prefers-reduced-motion:reduce){.sc-gate-mask{transition:none;}}
+
+</style>
+</head>
+<body>
+<a href="/" class="back-to-portal" id="backToPortal"><span class="arrow">←</span> 返回门户页</a>
+
+<header class="header">
+  <h1>质量标准知识库</h1>
+  <p class="subtitle">纺织与服装 · 国家 / 行业 / 企业标准全集 · 赋能品控合规与对标</p>
+  <span class="badge">📏 质量标准知识库 · 持续刷新</span>
+</header>
+
+<div class="container">
+  <div class="sc-overview">
+    <div class="ov-title">📊 标准台账概览</div>
+    <div class="sc-ov-stats">
+      <div class="sc-ov-stat"><b>22</b><span>收录标准</span></div>
+      <div class="sc-ov-stat"><b>13</b><span>国家标准</span></div>
+      <div class="sc-ov-stat"><b>6</b><span>行业标准</span></div>
+      <div class="sc-ov-stat"><b>3</b><span>企业标准</span></div>
+      <div class="sc-ov-stat"><b>2026-07-30</b><span>最近更新</span></div>
+    </div>
+  </div>
+
+  <nav class="cat-nav">
+    <a href="#gb">国家标准</a>
+    <a href="#fz">行业标准</a>
+    <a href="#q">企业标准</a>
+    <a href="#qs">标准检索</a>
+  </nav>
+
+    <section class="cat" id="gb">
+      <div class="cat-head">
+        <h2 class="cat-title">国家标准（GB / GB·T）</h2>
+        <p class="cat-desc">强制性（GB）与推荐性（GB·T）国家标准，纺织服装合规底线</p>
+        <span class="cat-count">13 项</span>
+      </div>
+      <div class="std-grid">
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-force">强制</span>
+          <span class="std-code">GB 18401-2010</span>
+          <h3 class="std-name">国家纺织产品基本安全技术规范</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>在中国境内生产、销售的服用、装饰用纺织产品</p>
+          <p class="std-summary">按最终用途分 A类（婴幼儿，≤36个月）、B类（直接接触皮肤）、C类（非直接接触皮肤）；管控甲醛含量、pH值、异味、可分解致癌芳香胺染料、色牢度（耐水/汗渍/摩擦/唾液）。上架前必过的安全门槛。</p>
+          <div class="std-tags"><span class="std-tag">安全技术</span><span class="std-tag">强制</span><span class="std-tag">A/B/C类</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-force">强制</span>
+          <span class="std-code">GB 31701-2015</span>
+          <h3 class="std-name">婴幼儿及儿童纺织产品安全技术规范</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>婴幼儿（≤36个月）及儿童（3~14岁）纺织产品</p>
+          <p class="std-summary">在 GB 18401 基础上加严：绳带长度与位置限制、附件抗拉强力（≤70mm 小附件）、锐利尖端/边缘、燃烧性能、填充物要求；童装设计与检品核心依据。</p>
+          <div class="std-tags"><span class="std-tag">安全技术</span><span class="std-tag">强制</span><span class="std-tag">童装</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 5296.4-2012</span>
+          <h3 class="std-name">消费品使用说明 第4部分：纺织品和服装</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>纺织品与服装的使用说明（吊牌/耐久性标签）</p>
+          <p class="std-summary">规定使用说明的标注要素与形式：制造者、产品名称、号型、纤维成分及含量、维护方法、执行标准、安全类别、检品等级等；与 GB·T 29862 协同约束纤维含量标识。</p>
+          <div class="std-tags"><span class="std-tag">标签合规</span><span class="std-tag">吊牌</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 29862-2026</span>
+          <h3 class="std-name">纺织品 纤维含量标识技术规范</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>纺织产品纤维含量的标签、标注与允差</p>
+          <p class="std-summary">2026-07-02 发布、2027-08-01 实施。首次明确线上销售与数字化标签标注规范；新增循环再利用/镀膜/双组分复合纤维专项标注；试验方法入章；符合性分'标识不符合/偏差不符合'两类。</p>
+          <div class="std-tags"><span class="std-tag">纤维含量</span><span class="std-tag">数字化标签</span><span class="std-tag">2027实施</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 18885-2020</span>
+          <h3 class="std-name">生态纺织品技术要求</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>生态纺织品（婴幼儿/直接接触/非直接接触）</p>
+          <p class="std-summary">规定生态毒性指标：甲醛、pH、可萃取重金属、农药残留、邻苯二甲酸酯、有机锡、全氟化合物等；高端线与出口订单的常见附加要求。</p>
+          <div class="std-tags"><span class="std-tag">生态</span><span class="std-tag">有害物质</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 2664-2017</span>
+          <h3 class="std-name">男西服、大衣</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>以毛、毛混纺等为面料的男西服、大衣</p>
+          <p class="std-summary">规定号型、外观疵点、缝制、整烫、理化性能（干洗尺寸变化、起毛起球、撕破强力）与检品等级（优等/一等/合格）；正装品控基准。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">正装</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 2665-2017</span>
+          <h3 class="std-name">女西服、大衣</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>女西服、女大衣</p>
+          <p class="std-summary">与 GB·T 2664 对应，针对女装版型与工艺的指标要求；连衣裙类常参考执行。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">正装</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 2666-2017</span>
+          <h3 class="std-name">西裤</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>西裤、休闲裤</p>
+          <p class="std-summary">规定裤类外观、缝制、水洗尺寸变化、起毛起球等；裤装品控通用基准。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">裤装</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 2660-2008</span>
+          <h3 class="std-name">衬衫</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>衬衫类产品</p>
+          <p class="std-summary">规定衬衫外观、缝制、针距、理化性能；基本款与商务衬衫品控依据。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">衬衫</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 14272-2021</span>
+          <h3 class="std-name">羽绒服装</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>以羽绒为填充物的服装</p>
+          <p class="std-summary">规定绒子含量、蓬松度、充绒量偏差、防钻绒、清洁度；2021 版将'含绒量'改为'绒子含量'，质检必看。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">羽绒</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 31888-2015</span>
+          <h3 class="std-name">中小学生校服</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>中小学生校服</p>
+          <p class="std-summary">规定校服安全、内在质量（绳带、pH、色牢度、起球）、外观；与 GB 31701/GB 18401 联动，校服项目专用。</p>
+          <div class="std-tags"><span class="std-tag">校服</span><span class="std-tag">童装</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 22700-2016</span>
+          <h3 class="std-name">水洗整理服装</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>水洗/砂洗等整理服装</p>
+          <p class="std-summary">规定水洗服装的水洗尺寸变化、扭斜率、断裂强力、PH 等；牛仔/水洗品类品控依据。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">水洗</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">GB·T 21294-2014</span>
+          <h3 class="std-name">服装理化性能的检验方法</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>服装理化性能检测</p>
+          <p class="std-summary">给出服装甲醛、pH、可分解致癌芳香胺染料、异味等理化项目的取样与检验方法；实验室检测通用方法标准。</p>
+          <div class="std-tags"><span class="std-tag">检测方法</span><span class="std-tag">理化</span></div>
+        </div>
+      </div>
+      </div>
+    </section>
+    <section class="cat" id="fz">
+      <div class="cat-head">
+        <h2 class="cat-title">行业标准（FZ 纺织）</h2>
+        <p class="cat-desc">纺织行业推荐性标准，细化服装品类工艺与检验</p>
+        <span class="cat-count">6 项</span>
+      </div>
+      <div class="std-grid">
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">FZ·T 81007-2022</span>
+          <h3 class="std-name">单、夹服装</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>以纺织机织物为主要面料的单夹服装</p>
+          <p class="std-summary">规定单夹服装的外观、缝制、整烫、理化性能与检品等级；除西服外的常规梭织上衣/套装基础标准，使用极广。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">梭织</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">FZ·T 81006-2017</span>
+          <h3 class="std-name">牛仔服装</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>牛仔服装</p>
+          <p class="std-summary">规定牛仔裤/上衣的色牢度（耐光、耐洗、耐摩擦）、水洗外观、断裂强力、pH 等；牛仔品类专用。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">牛仔</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">FZ·T 73020-2019</span>
+          <h3 class="std-name">针织休闲服装</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>针织休闲服装</p>
+          <p class="std-summary">规定针织休闲装的外观、尺寸变化率、起球、顶破强力、色牢度；T恤/卫衣/针织外套品控依据。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">针织</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">FZ·T 73018-2021</span>
+          <h3 class="std-name">毛针织品</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>羊毛/羊绒等毛针织品</p>
+          <p class="std-summary">规定毛衫的纤维含量、起球、二氯甲烷可溶性物质、松弛尺寸变化；羊绒毛衣高端线核心标准。</p>
+          <div class="std-tags"><span class="std-tag">服装产品</span><span class="std-tag">毛针织</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">FZ·T 80002-2016</span>
+          <h3 class="std-name">服装标志、包装、运输和贮存</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>服装的标志、包装、运输、贮存</p>
+          <p class="std-summary">规定成衣出厂的标志（唛头）、包装方式与储运条件；供应链履约与仓配通用规范。</p>
+          <div class="std-tags"><span class="std-tag">供应链</span><span class="std-tag">包装储运</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-rec">推荐</span>
+          <span class="std-code">FZ·T 01057 系列</span>
+          <h3 class="std-name">纺织纤维鉴别试验方法</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>纺织纤维定性/定量鉴别</p>
+          <p class="std-summary">系列方法标准（燃烧、显微镜、溶解、红外等），用于纤维成分仲裁与打假；配合 GB·T 29862 含量标注核查。</p>
+          <div class="std-tags"><span class="std-tag">检测方法</span><span class="std-tag">纤维鉴别</span></div>
+        </div>
+      </div>
+      </div>
+    </section>
+    <section class="cat" id="q">
+      <div class="cat-head">
+        <h2 class="cat-title">企业标准（Q/锦泓）</h2>
+        <p class="cat-desc">锦泓集团内控标准，一般严于国标/行标，须在企标平台自我声明公开</p>
+        <span class="cat-count">3 项</span>
+      </div>
+      <div class="std-grid">
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-q">企标</span>
+          <span class="std-code">Q/JH 001-2024</span>
+          <h3 class="std-name">锦泓时装 成衣外观质量检验规范</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>集团自有品牌（TW/VGRASS 等）成衣出厂检品</p>
+          <p class="std-summary">在内控层面加严外观疵点判定与漏验率，统一各工厂检品尺度；高于 FZ·T 81007 等的合格品要求，是'质量一致性'抓手。</p>
+          <div class="std-tags"><span class="std-tag">内控</span><span class="std-tag">检品</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-q">企标</span>
+          <span class="std-code">Q/JH 002-2024</span>
+          <h3 class="std-name">锦泓时装 纤维含量内控允差</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>纤维含量标注与实测允差</p>
+          <p class="std-summary">在 GB·T 29862 允差基础上进一步收紧内控允差并强化溯源留档，降低线上线下标签不符风险；循环再利用纤维专项管理。</p>
+          <div class="std-tags"><span class="std-tag">内控</span><span class="std-tag">纤维含量</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-nature n-q">企标</span>
+          <span class="std-code">Q/JH 003-2024</span>
+          <h3 class="std-name">锦泓时装 童装绳带与附件安全要求</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-scope"><b>适用范围：</b>集团童装/校服产品线</p>
+          <p class="std-summary">在 GB 31701 基础上加严绳带与附件管控（更短限值、更高抗拉），出口与高端童装合规前置；体现'企标严于国标'。</p>
+          <div class="std-tags"><span class="std-tag">内控</span><span class="std-tag">童装</span><span class="std-tag">安全</span></div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+</div>
+
+<footer class="footer">
+  <div class="update-info">最后更新：<strong>2026-07-30</strong> ｜ 共收录 <strong>22</strong> 项标准（国标 13 / 行标 6 / 企标 3）</div>
+  <div class="platforms">权威来源：
+    <a href="https://std.samr.gov.cn/" target="_blank" rel="noopener">全国标准信息公共服务平台</a><a href="https://www.qybz.org.cn/" target="_blank" rel="noopener">企业标准信息公共服务平台</a><a href="http://www.csres.com/" target="_blank" rel="noopener">标准网 csres.com</a>
+  </div>
+  <div class="copyright">质量标准知识库 · 供应链中心 · Powered by 内网知识库</div>
+</footer>
+
+    <details class="qs-dock" id="qs" open>
+      <summary class="qs-dock-sum"><span class="qs-dock-tt">🔎 外部标准检索平台</span><span class="qs-dock-hint">点击折叠 / 展开</span></summary>
+      <div class="qs-dock-body">
+        <p class="qs-dock-desc">权威 / 第三方标准检索入口，可直接查询现行与即将发布的标准全文、替代关系与实施日期，作为本台账的动态补充。</p>
+        <div class="qs-grid">
+      <a class="qs-card" href="http://www.csres.com/" target="_blank" rel="noopener">
+        <div class="qs-ico">🔗</div>
+        <h3 class="qs-name">标准网 csres.com（标准总检索）</h3>
+        <p class="qs-desc">第三方标准检索入口，可按标准号、名称、ICS / 行业分类检索国家标准、行业标准、地方标准、企业标准的题录、现行状态与替代关系，支持在线阅读 / 购买全文。</p>
+        <div class="std-tags"><span class="std-tag">标准检索</span><span class="std-tag">全文查询</span><span class="std-tag">替代关系</span></div>
+        <span class="qs-link">http://www.csres.com/ →</span>
+      </a>
+      <a class="qs-card" href="http://www.csres.com/sort/industry/002003_1.html" target="_blank" rel="noopener">
+        <div class="qs-ico">🔗</div>
+        <h3 class="qs-name">纺织服装行业标准（现行 + 即将发布）</h3>
+        <p class="qs-desc">csres 纺织服装行业分类（002003）检索页，集中展示现行与即将发布的纺织 / 服装行业标准，可直接查询标准号、名称、状态、实施日期，作为本知识库台账的动态补充。</p>
+        <div class="std-tags"><span class="std-tag">纺织</span><span class="std-tag">服装</span><span class="std-tag">现行/即将发布</span></div>
+        <span class="qs-link">http://www.csres.com/sort/industry/002003_1.html →</span>
+      </a>
+        </div>
+      </div>
+    </details>
+
+<script>
+// 返回门户：默认内网路由 /，公网环境退回 GitHub Pages 门户
+if (location.hostname === 'jovienne0913.github.io') {
+  document.getElementById('backToPortal').setAttribute('href', 'https://jovienne0913.github.io/supply-chain-knowledge-hub/');
+}
+</script>
+
+<div class="sc-gate-mask" id="scGate" role="dialog" aria-modal="true" aria-label="身份核验">
+  <div class="sc-gate-card">
+    <div class="sc-gate-body">
+      <div class="sc-gate-logo">🔐</div>
+      <div class="sc-gate-title">锦泓供应链知识库 · 身份核验</div>
+
+      <div class="sc-gate-emp" id="scGateEmp">
+        <input type="text" id="scGateEmpId" class="sc-gate-input" placeholder="工号" inputmode="numeric" maxlength="8" autocomplete="off" />
+        <button class="sc-gate-btn" id="scGateEmpBtn">验证进入</button>
+        <div class="sc-gate-err" id="scGateErr"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+// ===== 供应链知识库门禁 (形态A：后端真门禁；前端仅渲染 UX) =====
+// 主形态：8 位工号(103 开头) 核验，后端记载
+// 备选：配置企微凭据扫码 / 演示模式(无后端预览)
+(function(){
+  function $(id){return document.getElementById(id);}
+  var GATE = window.KB_GATE || {wecom:false, code:false, employee:true, mock:true};
+
+  function removeMask(){
+    var m=$('scGate');if(!m)return;
+    m.style.transition='opacity .25s';m.style.opacity='0';
+    setTimeout(function(){
+      if(m.parentNode)m.parentNode.removeChild(m);
+      if(m.getAttribute('data-shell'))window.location.reload();
+    },250);
+  }
+  function authed(){removeMask();}
+  function showErr(msg){var e=$('scGateErr');if(e)e.textContent=msg||'';}
+  function setHint(html){var h=$('scGateHint');if(h)h.innerHTML=html;}
+  function hideWecom(){var qr=$('scGateQr');if(qr)qr.style.display='none';var d=$('scGateDivider');if(d)d.style.display='none';}
+  function focusCard(){try{var f=$('scGate').querySelector('.sc-gate-card');if(f){f.setAttribute('tabindex','-1');f.focus();}}catch(e){}}
+
+  // 工号核验
+  function startEmp(demo){
+    hideWecom();
+    var idI=$('scGateEmpId'), btn=$('scGateEmpBtn');
+    if(!idI||!btn)return;
+    function submit(){
+      var id=idI.value.trim();
+      if(!/^103\d{5}$/.test(id)){showErr('工号无效');return;}
+      if(demo){ showErr(''); authed(); return; }
+      showErr(''); btn.disabled=true; btn.textContent='验证中…';
+      fetch('/api/auth/employee',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({emp_id:id}),credentials:'same-origin'})
+        .then(function(r){return r.json().then(function(d){return {ok:r.ok&&d.ok,d:d};});})
+        .then(function(res){
+          if(res.ok){ authed(); }
+          else { showErr((res.d&&res.d.msg)||'验证失败'); btn.disabled=false; btn.textContent='验证进入'; }
+        })
+        .catch(function(){ showErr('网络异常，无法连接门禁服务'); btn.disabled=false; btn.textContent='验证进入'; });
+    }
+    btn.onclick=submit;
+    idI.addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+    idI.focus();
+  }
+
+  // 演示模式（无后端 / ?demo=1）
+  function showDemo(){
+    var d=$('scGateDemo');if(d)d.style.display='block';
+    hideWecom();
+    var de=$('scGateDemoEnter');
+    if(de)de.onclick=function(){
+      var id=$('scGateEmpId');
+      if(id&&/^103\d{5}$/.test(id.value.trim())){ showErr(''); authed(); }
+      else showErr('工号无效');
+    };
+    startEmp(true);
+  }
+
+  // 企业微信扫码（仅在配置企微凭据时）
+  function qrSVG(){
+    var N=25, cell=100/N, parts=['<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">','<rect width="100" height="100" fill="#fff"/>'];
+    var seed=20260730;
+    function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+    function finder(x,y){
+      parts.push('<rect x="'+(x*cell)+'" y="'+(y*cell)+'" width="'+(7*cell)+'" height="'+(7*cell)+'" fill="#1f2937"/>');
+      parts.push('<rect x="'+((x+1)*cell)+'" y="'+((y+1)*cell)+'" width="'+(5*cell)+'" height="'+(5*cell)+'" fill="#fff"/>');
+      parts.push('<rect x="'+((x+2)*cell)+'" y="'+((y+2)*cell)+'" width="'+(3*cell)+'" height="'+(3*cell)+'" fill="#1f2937"/>');
+    }
+    for(var y=0;y<N;y++){for(var x=0;x<N;x++){
+      if((x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9))continue;
+      if(rnd()>0.55){parts.push('<rect x="'+(x*cell)+'" y="'+(y*cell)+'" width="'+cell+'" height="'+cell+'" fill="#1f2937"/>');}
+    }}
+    finder(0,0);finder(N-7,0);finder(0,N-7);
+    parts.push('</svg>');return parts.join('');
+  }
+  function setQRState(s,badge,txt){
+    var qr=$('scGateQr');if(!qr)return;
+    qr.className='sc-gate-qr state-'+s;
+    var b=$('scGateBadge'),t=$('scGateMaskTxt');
+    if(b)b.textContent=badge;if(t)t.textContent=txt;
+  }
+  function poll(ticket){
+    var iv=setInterval(function(){
+      fetch('/api/auth/wecom/status?ticket='+encodeURIComponent(ticket),{credentials:'same-origin'})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.state==='scanned'){setQRState('scanned','✓','已在手机端扫描，请确认');setHint('已扫描 · 请在手机端点击<b>确认</b>');}
+        else if(d.state==='expired'){clearInterval(iv);setQRState('expired','!','二维码已过期');}
+        else if(d.state==='success'){clearInterval(iv);setHint('验证通过 · 正在进入…');authed();}
+      }).catch(function(){});
+    },2000);
+  }
+  function startWecom(ticket,loginUrl){
+    var qr=$('scGateQr');if(!qr)return;
+    qr.style.display='block';
+    qr.innerHTML='<iframe src="'+loginUrl+'" title="企业微信扫码登录" style="width:100%;height:100%;border:0;border-radius:6px;"></iframe>'
+      +'<div class="qr-fallback"><a href="'+loginUrl+'" target="_blank" rel="noopener">无法显示？点此在新窗口扫码</a></div>';
+    setHint('请使用企业微信 App 扫描上方二维码');
+    poll(ticket);
+  }
+
+  function init(){
+    var mask=$('scGate');if(!mask)return;
+    if(/[?&]demo=1/.test(location.search)){showDemo();focusCard();return;}
+    fetch('/api/auth/me',{credentials:'same-origin'})
+      .then(function(r){return r.status===200?r.json().then(function(d){return{ok:true,d:d};}):{ok:false};})
+      .then(function(res){
+        if(res.ok){authed();return;}
+        return fetch('/api/auth/config',{credentials:'same-origin'})
+          .then(function(r){return r.json();})
+          .then(function(cfg){
+            GATE=cfg||GATE;
+            if(cfg&&cfg.employee){ startEmp(false); }
+            else if(cfg&&cfg.wecom){ fetch('/api/auth/wecom/qrcode',{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(d){startWecom(d.ticket,d.login_url);}).catch(function(){showDemo();}); }
+            else { showDemo(); }
+          })
+          .catch(function(){ showDemo(); });
+      })
+      .catch(function(){ showDemo(); });
+    focusCard();
+  }
+  if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
+})();
+
+</body>
+</html>
