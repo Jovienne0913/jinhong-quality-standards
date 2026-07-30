@@ -632,9 +632,14 @@ if (location.hostname === 'jovienne0913.github.io') {
     poll(ticket);
   }
 
+  function isStaticHost(){
+    var h=location.hostname;
+    return h.indexOf('github.io')>=0 || h==='localhost' || h==='127.0.0.1' || h==='0.0.0.0';
+  }
+
   function init(){
     var mask=$('scGate');if(!mask)return;
-    if(/[?&]demo=1/.test(location.search)){showDemo();focusCard();return;}
+    if(/[?&]demo=1/.test(location.search)||isStaticHost()){showDemo();focusCard();return;}
     fetch('/api/auth/me',{credentials:'same-origin'})
       .then(function(r){return r.status===200?r.json().then(function(d){return{ok:true,d:d};}):{ok:false};})
       .then(function(res){
