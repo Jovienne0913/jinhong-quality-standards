@@ -28,6 +28,9 @@
   .kb-home:hover { text-decoration: none; opacity: .8; }
   .kb-home-logo { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, var(--brand-500), var(--brand-700)); display: flex; align-items: center; justify-content: center; font-size: 17px; box-shadow: 0 6px 16px rgba(37,99,235,.3); }
   .kb-status { font-size: 12px; font-weight: 600; color: var(--brand-700); background: var(--brand-100); border: 1px solid #D6E4FB; border-radius: var(--r-pill); padding: 5px 12px; }
+  .kb-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; color: var(--brand-700); background: var(--brand-100); border: 1px solid #D6E4FB; border-radius: var(--r-pill); padding: 7px 14px; transition: transform .15s, border-color .15s; }
+  .kb-back:hover { border-color: var(--brand-500); transform: translateY(-1px); text-decoration: none; }
+  .kb-back .arrow { font-size: 15px; line-height: 1; }
   /* Header */
   .header { background: linear-gradient(135deg, var(--brand-900) 0%, var(--brand-700) 100%); color: #fff; padding: 2rem 1.5rem 1.6rem; text-align: center; position: relative; }
   .header::before { content:""; position:absolute; top:0; left:0; right:0; height:4px; background: linear-gradient(90deg, #3B82F6, #14489E); }
@@ -155,8 +158,11 @@
 
 <header class="kb-topbar">
   <div class="kb-topbar-in">
-    <a class="kb-home" id="backToPortal" href="/"><span class="kb-home-logo">📏</span> 质量标准知识库</a>
-    <span class="kb-status">🔒 工号验证 · 内部</span>
+    <a class="kb-home" href="/"><span class="kb-home-logo">📏</span> 质量标准知识库</a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span class="kb-status">🔒 工号验证 · 内部</span>
+      <a class="kb-back" id="backToPortal" href="/"><span class="arrow">←</span> 返回门户</a>
+    </div>
   </div>
 </header>
 
