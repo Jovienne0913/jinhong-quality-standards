@@ -37,7 +37,22 @@
   .header h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: 0.01em; margin-bottom: 0.4rem; }
   .header .subtitle { font-size: 0.92rem; opacity: 0.9; max-width: 720px; margin: 0 auto; line-height: 1.6; }
   .header .badge { display: inline-block; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.32); border-radius: 20px; padding: 0.22rem 0.8rem; font-size: 0.75rem; margin-top: 0.7rem; backdrop-filter: blur(4px); }
-  .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+  .kb-topbar-in { max-width: 1400px; margin: 0 auto; padding: 10px 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .kb-nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .kb-nav a { font-size: 13px; font-weight: 600; color: var(--ink-700); padding: 6px 12px; border-radius: var(--r-pill); transition: background .15s, color .15s; }
+  .kb-nav a:hover { background: var(--brand-100); color: var(--brand-700); text-decoration: none; }
+  .kb-nav a.active { background: var(--brand-500); color: #fff; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+  /* 左侧子页导航 */
+  .page-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
+  .side-nav { position: sticky; top: 70px; width: 170px; flex-shrink: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 12px 10px; box-shadow: var(--sh-sm); }
+  .side-nav-title { font-size: 12px; font-weight: 700; color: var(--ink-400); text-transform: uppercase; letter-spacing: .5px; padding: 0 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+  .side-nav a { display: block; font-size: 13px; font-weight: 600; color: var(--ink-700); padding: 8px 10px; border-radius: 8px; margin-bottom: 3px; transition: background .15s, color .15s; }
+  .side-nav a:hover { background: var(--brand-100); color: var(--brand-700); text-decoration: none; }
+  .side-nav a.active { background: var(--brand-500); color: #fff; }
+  .main-content { flex: 1; min-width: 0; }
+
   /* 概览 */
   .sc-overview { background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:20px 24px; margin:1.5rem 0 18px; box-shadow:var(--sh-sm); }
   .sc-overview .ov-title { font-size:13px; font-weight:700; color:var(--brand-700); letter-spacing:.04em; margin-bottom:14px; display:flex; align-items:center; gap:6px; }
@@ -163,6 +178,17 @@
       <span class="kb-status">🔒 工号验证 · 内部</span>
       <a class="kb-back" id="backToPortal" href="/"><span class="arrow">←</span> 返回门户</a>
     </div>
+    <nav class="kb-nav">
+      <a href="/">首页</a>
+      <a href="https://jovienne0913.github.io/supply-chain-knowledge-hub/">门户</a>
+      <a href="https://jovienne0913.github.io/jinhong-glossary/">术语库</a>
+      <a href="https://jovienne0913.github.io/jinhong-exhibitions/">展会</a>
+      <a href="https://jovienne0913.github.io/supply-chain-knowledge-hub/reports/202607.html">月报</a>
+      <a href="https://jovienne0913.github.io/jinhong-quality-standards/">质量标准</a>
+      <a href="https://jovienne0913.github.io/jinhong-standards/">标准解读</a>
+      <a href="https://jovienne0913.github.io/textile-ai-knowledge/">AI洞察</a>
+    </nav>
+  
   </div>
 </header>
 
@@ -173,6 +199,22 @@
 </header>
 
 <div class="container">
+
+  <div class="page-layout">
+    <aside class="side-nav">
+<div class="side-nav-title">供应链知识库</div>
+      <a href="https://jovienne0913.github.io/supply-chain-knowledge-hub/">🏠 门户</a>
+      <a href="https://jovienne0913.github.io/jinhong-material-prices/">💱 物料价格</a>
+      <a href="https://jovienne0913.github.io/jinhong-exhibitions/">🗓️ 展会</a>
+      <a href="https://jovienne0913.github.io/jinhong-glossary/">📖 术语库</a>
+      <a href="https://jovienne0913.github.io/supply-chain-knowledge-hub/reports/202607.html">📊 月报</a>
+      <a class="active" href="https://jovienne0913.github.io/jinhong-quality-standards/">📏 质量标准</a>
+      <a href="https://jovienne0913.github.io/jinhong-standards/">📐 标准解读</a>
+      <a href="https://jovienne0913.github.io/textile-ai-knowledge/">🤖 AI洞察</a>
+    </aside>
+
+    <main class="main-content">
+
   <div class="sc-overview">
     <div class="ov-title">📊 标准台账概览</div>
     <div class="sc-ov-stats">
@@ -495,9 +537,11 @@
       </div>
     </section>
 
-</div>
 
-<footer class="footer">
+    </main>
+  </div>
+
+</div><footer class="footer">
   <div class="update-info">最后更新：<strong>2026-07-30</strong> ｜ 共收录 <strong>23</strong> 项标准（国标 13 / 行标 7 / 企标 3）</div>
   <div class="platforms">权威来源：
     <a href="https://std.samr.gov.cn/" target="_blank" rel="noopener">全国标准信息公共服务平台</a><a href="https://www.qybz.org.cn/" target="_blank" rel="noopener">企业标准信息公共服务平台</a><a href="http://www.csres.com/" target="_blank" rel="noopener">标准网 csres.com</a>
