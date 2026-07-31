@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>质量标准知识库 · 知识库</title>
+<title>质量标准知识库 + 检测方法 · 知识库</title>
 <style>
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,22 +37,7 @@
   .header h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: 0.01em; margin-bottom: 0.4rem; }
   .header .subtitle { font-size: 0.92rem; opacity: 0.9; max-width: 720px; margin: 0 auto; line-height: 1.6; }
   .header .badge { display: inline-block; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.32); border-radius: 20px; padding: 0.22rem 0.8rem; font-size: 0.75rem; margin-top: 0.7rem; backdrop-filter: blur(4px); }
-  .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
-  .kb-topbar-in { max-width: 1400px; margin: 0 auto; padding: 10px 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .kb-nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .kb-nav a { font-size: 13px; font-weight: 600; color: var(--ink-700); padding: 6px 12px; border-radius: var(--r-pill); transition: background .15s, color .15s; }
-  .kb-nav a:hover { background: var(--brand-100); color: var(--brand-700); text-decoration: none; }
-  .kb-nav a.active { background: var(--brand-500); color: #fff; }
-  .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
-  /* 左侧子页导航 */
-  .page-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
-  .side-nav { position: sticky; top: 70px; width: 170px; flex-shrink: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 12px 10px; box-shadow: var(--sh-sm); }
-  .side-nav-title { font-size: 12px; font-weight: 700; color: var(--ink-400); text-transform: uppercase; letter-spacing: .5px; padding: 0 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
-  .side-nav a { display: block; font-size: 13px; font-weight: 600; color: var(--ink-700); padding: 8px 10px; border-radius: 8px; margin-bottom: 3px; transition: background .15s, color .15s; }
-  .side-nav a:hover { background: var(--brand-100); color: var(--brand-700); text-decoration: none; }
-  .side-nav a.active { background: var(--brand-500); color: #fff; }
-  .main-content { flex: 1; min-width: 0; }
-
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
   /* 概览 */
   .sc-overview { background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); padding:20px 24px; margin:1.5rem 0 18px; box-shadow:var(--sh-sm); }
   .sc-overview .ov-title { font-size:13px; font-weight:700; color:var(--brand-700); letter-spacing:.04em; margin-bottom:14px; display:flex; align-items:center; gap:6px; }
@@ -86,6 +71,18 @@
   .std-summary { line-height:1.6; }
   .std-tags { display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.6rem; }
   .std-tag { font-size:0.7rem; color:var(--ink-700); background:#F1F5F9; border:1px solid var(--line); border-radius:6px; padding:0.1rem 0.45rem; }
+  /* 检测项目卡片（适用范围/测试方法/指标要求/常见不合格） */
+  .std-row { margin-bottom:0.35rem; }
+  .std-row b { color:var(--brand-900); }
+  .std-req { background:#F0F7FF; border-left:3px solid var(--brand-500); border-radius:8px; padding:0.5rem 0.75rem; margin:0.5rem 0; font-size:0.84rem; color:var(--brand-900); }
+  .std-fail { color:#B91C1C; font-size:0.84rem; }
+  .std-fail b { color:#B91C1C; }
+  /* 检测方法分区横幅 */
+  .testing-divider { margin: 2.5rem 0 1.2rem; padding: 1.5rem 1.8rem; background: linear-gradient(135deg, var(--brand-900) 0%, var(--brand-700) 100%); color:#fff; border-radius: var(--r-lg); box-shadow: var(--sh-md); position:relative; overflow:hidden; }
+  .testing-divider::before { content:""; position:absolute; top:0; left:0; right:0; height:4px; background: linear-gradient(90deg, #3B82F6, #14489E); }
+  .divider-head { display:flex; flex-direction:column; gap:0.4rem; }
+  .divider-title { font-size: 1.4rem; font-weight: 800; letter-spacing: 0.02em; }
+  .divider-desc { font-size: 0.92rem; opacity: 0.93; line-height: 1.6; }
   /* 外部标准检索平台（底部常驻悬浮 dock） */
   body { padding-bottom: 150px; }
   .qs-dock { position:fixed; left:0; right:0; bottom:0; z-index:45; background:rgba(248,250,252,.96); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-top:1px solid var(--line); box-shadow:0 -4px 18px rgba(15,23,42,.10); padding:.7rem 1rem; }
@@ -178,50 +175,24 @@
       <span class="kb-status">🔒 工号验证 · 内部</span>
       <a class="kb-back" id="backToPortal" href="/"><span class="arrow">←</span> 返回门户</a>
     </div>
-    <nav class="kb-nav">
-      <a href="/">首页</a>
-      <a href="https://jovienne0913.github.io/supply-chain-knowledge-hub/">门户</a>
-      <a href="https://jovienne0913.github.io/jinhong-glossary/">术语库</a>
-      <a href="https://jovienne0913.github.io/jinhong-exhibitions/">展会</a>
-      <a href="https://jovienne0913.github.io/supply-chain-knowledge-hub/reports/202607.html">月报</a>
-      <a href="https://jovienne0913.github.io/jinhong-quality-standards/">质量标准</a>
-      <a href="https://jovienne0913.github.io/jinhong-standards/">标准解读</a>
-      <a href="https://jovienne0913.github.io/textile-ai-knowledge/">AI洞察</a>
-    </nav>
-  
   </div>
 </header>
 
 <header class="header">
   <h1>质量标准知识库</h1>
-  <p class="subtitle">纺织与服装 · 国家 / 行业 / 企业标准全集 · 赋能品控合规与对标</p>
-  <span class="badge">📏 质量标准知识库 · 持续刷新</span>
+  <p class="subtitle">纺织与服装 · 国家 / 行业 / 企业标准全集 · 赋能品控合规与对标 · 覆盖色牢度、物理性能、化学安全、生态与功能性四大类核心检测项目，逐项给出适用标准、测试方法、指标要求与常见不合格成因，支撑研发选料、质量管控与客诉归因。</p>
+  <span class="badge">📏 质量标准 + 检测方法 · 持续刷新</span>
 </header>
 
 <div class="container">
-
-  <div class="page-layout">
-    <aside class="side-nav">
-<div class="side-nav-title">供应链知识库</div>
-      <a href="https://jovienne0913.github.io/supply-chain-knowledge-hub/">🏠 门户</a>
-      <a href="https://jovienne0913.github.io/jinhong-material-prices/">💱 物料价格</a>
-      <a href="https://jovienne0913.github.io/jinhong-exhibitions/">🗓️ 展会</a>
-      <a href="https://jovienne0913.github.io/jinhong-glossary/">📖 术语库</a>
-      <a href="https://jovienne0913.github.io/supply-chain-knowledge-hub/reports/202607.html">📊 月报</a>
-      <a class="active" href="https://jovienne0913.github.io/jinhong-quality-standards/">📏 质量标准</a>
-      <a href="https://jovienne0913.github.io/jinhong-standards/">📐 标准解读</a>
-      <a href="https://jovienne0913.github.io/textile-ai-knowledge/">🤖 AI洞察</a>
-    </aside>
-
-    <main class="main-content">
-
   <div class="sc-overview">
-    <div class="ov-title">📊 标准台账概览</div>
+    <div class="ov-title">📊 标准与检测概览</div>
     <div class="sc-ov-stats">
       <div class="sc-ov-stat"><b>23</b><span>收录标准</span></div>
       <div class="sc-ov-stat"><b>13</b><span>国家标准</span></div>
       <div class="sc-ov-stat"><b>7</b><span>行业标准</span></div>
       <div class="sc-ov-stat"><b>3</b><span>企业标准</span></div>
+      <div class="sc-ov-stat"><b>30</b><span>检测项</span></div>
       <div class="sc-ov-stat"><b>2026-07-30</b><span>最近更新</span></div>
     </div>
   </div>
@@ -230,6 +201,11 @@
     <a href="#gb">国家标准</a>
     <a href="#fz">行业标准</a>
     <a href="#q">企业标准</a>
+    <a href="#testing">检测方法</a>
+    <a href="#colorfastness">色牢度</a>
+    <a href="#physical">物理性能</a>
+    <a href="#chemical">化学安全</a>
+    <a href="#eco">生态与功能性</a>
     <a href="#qs">标准检索</a>
   </nav>
 
@@ -537,12 +513,444 @@
       </div>
     </section>
 
+  <section class="testing-divider" id="testing">
+    <div class="divider-head">
+      <h2 class="divider-title">🔬 检测项目与测试方法</h2>
+      <p class="divider-desc">覆盖色牢度、物理性能、化学安全、生态与功能性四大类核心检测项目，逐项给出适用标准、测试方法、指标要求与常见不合格成因，支撑研发选料、质量管控与客诉归因。</p>
+    </div>
+  </section>
 
-    </main>
-  </div>
+    <section class="cat" id="colorfastness">
+      <div class="cat-head">
+        <h2 class="cat-title">色牢度</h2>
+        <p class="cat-desc">考核染料在加工与使用过程中抵抗外界作用的褪色/沾色能力，是成衣外观一致性与安全性的第一关。</p>
+        <span class="cat-count">7 项</span>
+      </div>
+      <div class="std-grid">
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 3920</span>
+          <h3 class="std-name">耐摩擦色牢度</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>各类染色、印花纺织品（干/湿摩擦）</p>
+          <p class="std-row"><b>测试方法：</b>试样在规定压力下与标准贴衬织物往复摩擦，用灰色样卡评定贴衬沾色级数。</p>
+          <div class="std-req"><b>指标要求：</b>常见门槛：优等品≥4级，一等品≥3-4级，合格品≥3级（视具体产品标准）。</div>
+          <p class="std-fail"><b>常见不合格：</b>深色、活性/硫化染料湿摩擦易偏低；浮色未洗净、固色不充分。</p>
+          <div class="std-tags"><span class="std-tag">色牢度</span><span class="std-tag">GB/T 3920</span><span class="std-tag">摩擦</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 3921</span>
+          <h3 class="std-name">耐皂洗（耐水洗）色牢度</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>耐受家庭或商业洗涤的染色纺织品</p>
+          <p class="std-row"><b>测试方法：</b>试样与贴衬缝合后，在规定温度/时间的皂液中断续搅动，评定变色与沾色。</p>
+          <div class="std-req"><b>指标要求：</b>视产品标准分条件（如40℃/50℃/60℃），一般优等品≥4级、一等品≥3-4级。</div>
+          <p class="std-fail"><b>常见不合格：</b>拼白、深浅拼色相邻；固色差、洗涤温度升高显著掉色。</p>
+          <div class="std-tags"><span class="std-tag">色牢度</span><span class="std-tag">GB/T 3921</span><span class="std-tag">水洗</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 3922</span>
+          <h3 class="std-name">耐汗渍色牢度</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>贴身及近身穿着的染色纺织品</p>
+          <p class="std-row"><b>测试方法：</b>试样浸入酸/碱模拟汗液中，加压夹持后与贴衬接触，恒温后评定变色与沾色。</p>
+          <div class="std-req"><b>指标要求：</b>B/C 类直接接触皮肤产品须≥3-4级（GB 18401 安全限量）。</div>
+          <p class="std-fail"><b>常见不合格：</b>活性染料对碱敏感；拼色配伍性差。</p>
+          <div class="std-tags"><span class="std-tag">色牢度</span><span class="std-tag">GB/T 3922</span><span class="std-tag">汗渍</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 5713</span>
+          <h3 class="std-name">耐水色牢度</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>可能接触水的染色纺织品</p>
+          <p class="std-row"><b>测试方法：</b>试样夹贴衬于蒸馏水中浸渍受压，干燥后评定变色与沾色。</p>
+          <div class="std-req"><b>指标要求：</b>B/C 类须≥3级（GB 18401 安全限量，A 类≥3-4级）。</div>
+          <p class="std-fail"><b>常见不合格：</b>染料水溶性高、固色不足。</p>
+          <div class="std-tags"><span class="std-tag">色牢度</span><span class="std-tag">GB/T 5713</span><span class="std-tag">水</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 8427</span>
+          <h3 class="std-name">耐人造光（氙弧）色牢度</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>户外/橱窗陈列/长时间光照的纺织品</p>
+          <p class="std-row"><b>测试方法：</b>试样与蓝色羊毛标准在氙弧灯下曝晒，按褪色程度定级。</p>
+          <div class="std-req"><b>指标要求：</b>户外/遮阳类通常要求≥4级；常规服装多≥3-4级。</div>
+          <p class="std-fail"><b>常见不合格：</b>分散/还原染料耐光性差；未加抗紫外助剂。</p>
+          <div class="std-tags"><span class="std-tag">色牢度</span><span class="std-tag">GB/T 8427</span><span class="std-tag">光照</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 18886</span>
+          <h3 class="std-name">耐唾液色牢度</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>婴幼儿纺织产品（A 类）</p>
+          <p class="std-row"><b>测试方法：</b>模拟唾液浸渍后加压夹持贴衬，评定变色与沾色。</p>
+          <div class="std-req"><b>指标要求：</b>婴幼儿产品强制要求≥4级（GB 18401 A 类）。</div>
+          <p class="std-fail"><b>常见不合格：</b>婴幼儿装深色印花、未做唾液牢度验证。</p>
+          <div class="std-tags"><span class="std-tag">色牢度</span><span class="std-tag">GB/T 18886</span><span class="std-tag">婴幼儿</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 5711</span>
+          <h3 class="std-name">耐干洗色牢度</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>可干洗的染色纺织品（如毛料、西装）</p>
+          <p class="std-row"><b>测试方法：</b>试样与贴衬在四氯乙烯中按规定条件处理，评定变色与沾色。</p>
+          <div class="std-req"><b>指标要求：</b>干洗类产品通常≥3-4级。</div>
+          <p class="std-fail"><b>常见不合格：</b>干洗溶剂下染料溶解迁移。</p>
+          <div class="std-tags"><span class="std-tag">色牢度</span><span class="std-tag">GB/T 5711</span><span class="std-tag">干洗</span></div>
+        </div>
+      </div>
+      </div>
+    </section>
+    <section class="cat" id="physical">
+      <div class="cat-head">
+        <h2 class="cat-title">物理性能</h2>
+        <p class="cat-desc">考核织物的力学强度、尺寸稳定性与耐用性，直接决定成衣穿着寿命与缝制良率。</p>
+        <span class="cat-count">9 项</span>
+      </div>
+      <div class="std-grid">
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 3923.1</span>
+          <h3 class="std-name">断裂强力（条样法）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>机织物拉伸断裂性能</p>
+          <p class="std-row"><b>测试方法：</b>条形试样在等速伸长拉伸试验机下拉至断裂，记录最大力值。</p>
+          <div class="std-req"><b>指标要求：</b>依面料克重/用途定门槛，如衬衫面料经向常≥200N；弹力布常测定伸长。</div>
+          <p class="std-fail"><b>常见不合格：</b>纱线强度不足、织造密度偏低、氨纶老化。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">GB/T 3923.1</span><span class="std-tag">强力</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 3917.1</span>
+          <h3 class="std-name">撕破强力（冲击摆锤法）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>机织物抗撕裂性能</p>
+          <p class="std-row"><b>测试方法：</b>试样切口在摆锤冲击下撕裂，读取撕裂力。</p>
+          <div class="std-req"><b>指标要求：</b>外衣/裤装常用≥10~15N；轻薄雪纺类门槛较低。</div>
+          <p class="std-fail"><b>常见不合格：</b>低密度织物、长浮长组织易撕破。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">GB/T 3917.1</span><span class="std-tag">撕破</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 19976</span>
+          <h3 class="std-name">顶破强力（钢球法）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>针织物、无纺布等不易条样拉伸的织物</p>
+          <p class="std-row"><b>测试方法：</b>圆形试样被钢球顶破，记录顶破力。</p>
+          <div class="std-req"><b>指标要求：</b>针织内衣/袜类常≥250~400N（依品类）。</div>
+          <p class="std-fail"><b>常见不合格：</b>线圈密度低、纱线细、氨纶缺失。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">GB/T 19976</span><span class="std-tag">顶破</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 4802.1</span>
+          <h3 class="std-name">起毛起球（圆轨迹法）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>服用织物的抗起球性</p>
+          <p class="std-row"><b>测试方法：</b>试样在规定压力下与尼龙刷/磨料摩擦，用标准样照评定起球级数。</p>
+          <div class="std-req"><b>指标要求：</b>外衣类常≥3级（级数越高越好）；另有马丁代尔法 GB/T 4802.2。</div>
+          <p class="std-fail"><b>常见不合格：</b>短纤纱、羊毛/腈纶混纺易起球；未做防缩/烧毛。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">GB/T 4802.1</span><span class="std-tag">起球</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 21196</span>
+          <h3 class="std-name">耐磨性（马丁代尔法）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>织物耐平磨性能</p>
+          <p class="std-row"><b>测试方法：</b>试样在马丁代尔仪上多向摩擦至破损或达规定转数，评定外观变化。</p>
+          <div class="std-req"><b>指标要求：</b>裤装/沙发面料常要求≥20000~30000转。</div>
+          <p class="std-fail"><b>常见不合格：</b>单纱强力低、组织结构疏松。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">GB/T 21196</span><span class="std-tag">耐磨</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 8629 / 8630</span>
+          <h3 class="std-name">水洗尺寸变化率</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>成衣/面料洗涤后尺寸稳定性</p>
+          <p class="std-row"><b>测试方法：</b>按 GB/T 8629 家庭洗涤程序洗后，用 GB/T 8630 测量并计算尺寸变化。</p>
+          <div class="std-req"><b>指标要求：</b>合格品通常±3%~±5%（依品类），优等品更严。</div>
+          <p class="std-fail"><b>常见不合格：</b>缩水未做预缩、氨纶回弹衰减、裁片归拔不足。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">尺寸</span><span class="std-tag">水洗</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 13772.1 / FZ/T 20019</span>
+          <h3 class="std-name">缝子纰裂 / 接缝强力</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>服装缝口处纱线滑移与接缝牢度</p>
+          <p class="std-row"><b>测试方法：</b>定负荷下测定缝口处纱线滑移量（纰裂）或接缝断裂强力。</p>
+          <div class="std-req"><b>指标要求：</b>外衣纰裂常≤0.6cm（或接缝强力≥某值），依产品标准。</div>
+          <p class="std-fail"><b>常见不合格：</b>低密度织物、稀密不匀、缝线张力过大。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">接缝</span><span class="std-tag">纰裂</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 4669</span>
+          <h3 class="std-name">单位面积质量（克重）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>织物平方米克重测定</p>
+          <p class="std-row"><b>测试方法：</b>裁取规定面积试样烘干/调湿后称重换算。</p>
+          <div class="std-req"><b>指标要求：</b>用于来料规格核价，偏差常控制在±5%内。</div>
+          <p class="std-fail"><b>常见不合格：</b>批间克重波动、虚标。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">克重</span><span class="std-tag">规格</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 2910 / FZ/T 01057</span>
+          <h3 class="std-name">纤维含量（定量化学分析）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>面料/成衣纤维成分定量</p>
+          <p class="std-row"><b>测试方法：</b>采用溶解法/显微镜法等分离各组分并称重计算百分比。</p>
+          <div class="std-req"><b>指标要求：</b>标注值允差依 FZ/T 01053（如净干含量≥15%时允差±5%）。</div>
+          <p class="std-fail"><b>常见不合格：</b>成分虚标、混纺比不达标、再生纤维未单独标注。</p>
+          <div class="std-tags"><span class="std-tag">物理</span><span class="std-tag">成分</span><span class="std-tag">纤维含量</span></div>
+        </div>
+      </div>
+      </div>
+    </section>
+    <section class="cat" id="chemical">
+      <div class="cat-head">
+        <h2 class="cat-title">化学安全</h2>
+        <p class="cat-desc">对应 GB 18401《国家纺织产品基本安全技术规范》等强制要求，是内销与出口的合规底线。</p>
+        <span class="cat-count">7 项</span>
+      </div>
+      <div class="std-grid">
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 2912.1</span>
+          <h3 class="std-name">甲醛含量</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>全部纺织产品（A/B/C 类）</p>
+          <p class="std-row"><b>测试方法：</b>水萃取试样中的游离甲醛，乙酰丙酮显色分光光度法测定。</p>
+          <div class="std-req"><b>指标要求：</b>GB 18401 限量：A类≤20、B类≤75、C类≤300 mg/kg。</div>
+          <p class="std-fail"><b>常见不合格：</b>树脂整理（防皱/免烫）、固色剂含游离甲醛；后整理过量。</p>
+          <div class="std-tags"><span class="std-tag">化学</span><span class="std-tag">GB 18401</span><span class="std-tag">甲醛</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 7573</span>
+          <h3 class="std-name">水萃取液 pH 值</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>全部纺织产品（A/B/C 类）</p>
+          <p class="std-row"><b>测试方法：</b>试样水萃取液用 pH 计测定。</p>
+          <div class="std-req"><b>指标要求：</b>GB 18401 限量：A类4.0~7.5、B类4.0~8.5、C类4.0~9.0。</div>
+          <p class="std-fail"><b>常见不合格：</b>染整助剂偏酸/碱、未充分水洗中和。</p>
+          <div class="std-tags"><span class="std-tag">化学</span><span class="std-tag">GB 18401</span><span class="std-tag">pH</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 17592 / 23344</span>
+          <h3 class="std-name">可分解致癌芳香胺染料（偶氮）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>全部纺织产品</p>
+          <p class="std-row"><b>测试方法：</b>还原分解后萃取，气相/液相色谱测定 24 种禁用芳香胺。</p>
+          <div class="std-req"><b>指标要求：</b>GB 18401 禁用：限量≤20 mg/kg。</div>
+          <p class="std-fail"><b>常见不合格：</b>使用禁用偶氮染料；回收料/拼色污染。</p>
+          <div class="std-tags"><span class="std-tag">化学</span><span class="std-tag">GB 18401</span><span class="std-tag">偶氮</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 17593</span>
+          <h3 class="std-name">可萃取重金属</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>全部纺织产品</p>
+          <p class="std-row"><b>测试方法：</b>酸性汗液萃取后原子吸收/ICP 测定铅、镉、汞、砷、铬等。</p>
+          <div class="std-req"><b>指标要求：</b>OEKO-TEX/绿色制造常设限量；内销侧重铅镉汞砷。</div>
+          <p class="std-fail"><b>常见不合格：</b>金属辅料（拉链/纽扣）镀层、染料含重金属。</p>
+          <div class="std-tags"><span class="std-tag">化学</span><span class="std-tag">重金属</span><span class="std-tag">生态</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 20388</span>
+          <h3 class="std-name">邻苯二甲酸酯</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>涂层/印花/塑料件（尤儿童产品）</p>
+          <p class="std-row"><b>测试方法：</b>溶剂萃取后气质联用测定 6 种邻苯二甲酸酯总量。</p>
+          <div class="std-req"><b>指标要求：</b>儿童产品限用（如 DEHP 等总和≤0.1%）。</div>
+          <p class="std-fail"><b>常见不合格：</b>PVC 涂层、软胶印花、劣质塑料辅料。</p>
+          <div class="std-tags"><span class="std-tag">化学</span><span class="std-tag">邻苯</span><span class="std-tag">儿童</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 18414</span>
+          <h3 class="std-name">氯化苯酚（五氯苯酚等）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>防腐/防霉整理的纺织品</p>
+          <p class="std-row"><b>测试方法：</b>气相色谱测定五氯苯酚、四氯苯酚等。</p>
+          <div class="std-req"><b>指标要求：</b>生态标准严格限用（如≤0.5 mg/kg 级）。</div>
+          <p class="std-fail"><b>常见不合格：</b>使用含 PCP 的防腐整理剂。</p>
+          <div class="std-tags"><span class="std-tag">化学</span><span class="std-tag">氯化苯酚</span><span class="std-tag">防腐</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB 18401</span>
+          <h3 class="std-name">异味</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>全部纺织产品</p>
+          <p class="std-row"><b>测试方法：</b>专业人员嗅觉评定是否有霉味、高沸石油味、鱼腥味、芳香烃味等。</p>
+          <div class="std-req"><b>指标要求：</b>GB 18401 规定：异味为「无」。</div>
+          <p class="std-fail"><b>常见不合格：</b>仓储霉变、煤油味未散、印花溶剂残留。</p>
+          <div class="std-tags"><span class="std-tag">化学</span><span class="std-tag">GB 18401</span><span class="std-tag">异味</span></div>
+        </div>
+      </div>
+      </div>
+    </section>
+    <section class="cat" id="eco">
+      <div class="cat-head">
+        <h2 class="cat-title">生态与功能性</h2>
+        <p class="cat-desc">面向功能性卖点与绿色合规的检测，支撑产品溢价宣称与出口准入。</p>
+        <span class="cat-count">7 项</span>
+      </div>
+      <div class="std-grid">
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">OEKO-TEX STANDARD 100</span>
+          <h3 class="std-name">生态纺织品限值（综合）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>全品类生态认证</p>
+          <p class="std-row"><b>测试方法：</b>按产品级别（I~IV）综合管控有害物质（甲醛、偶氮、重金属、杀虫剂等）。</p>
+          <div class="std-req"><b>指标要求：</b>I 类（婴幼儿）最严；证书需年度更新与现场审核。</div>
+          <p class="std-fail"><b>常见不合格：</b>辅料/缝线未纳入管控范围导致批次超标。</p>
+          <div class="std-tags"><span class="std-tag">生态</span><span class="std-tag">OEKO-TEX</span><span class="std-tag">认证</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 5453</span>
+          <h3 class="std-name">透气性</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>面料透气性能</p>
+          <p class="std-row"><b>测试方法：</b>规定压差下测定单位时间透过织物的空气体积。</p>
+          <div class="std-req"><b>指标要求：</b>运动/夏季面料越高越舒适；羽绒服面料需兼顾防钻绒（偏低）。</div>
+          <p class="std-fail"><b>常见不合格：</b>涂层过厚、密度过高。</p>
+          <div class="std-tags"><span class="std-tag">功能</span><span class="std-tag">透气</span><span class="std-tag">GB/T 5453</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 12704</span>
+          <h3 class="std-name">透湿性（吸湿法/蒸发法）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>服装面料透湿排汗性能</p>
+          <p class="std-row"><b>测试方法：</b>测定单位面积单位时间透过的水蒸气量。</p>
+          <div class="std-req"><b>指标要求：</b>功能性外套常标 ≥5000 g/(m²·24h)。</div>
+          <p class="std-fail"><b>常见不合格：</b>膜层/涂层透湿不足、复合工艺缺陷。</p>
+          <div class="std-tags"><span class="std-tag">功能</span><span class="std-tag">透湿</span><span class="std-tag">GB/T 12704</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 4744</span>
+          <h3 class="std-name">静水压（防水性）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>防水/防泼水面料</p>
+          <p class="std-row"><b>测试方法：</b>试样承受 steadily 上升水压至第三处渗水，记录压力值。</p>
+          <div class="std-req"><b>指标要求：</b>户外面料常标 ≥10000 mmH₂O；可经多次水洗后衰减。</div>
+          <p class="std-fail"><b>常见不合格：</b>膜破损、接缝未压胶、水洗后衰减。</p>
+          <div class="std-tags"><span class="std-tag">功能</span><span class="std-tag">防水</span><span class="std-tag">GB/T 4744</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 4745</span>
+          <h3 class="std-name">沾水（防泼水）等级</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>面料表面抗润湿性能</p>
+          <p class="std-row"><b>测试方法：</b>规定水量喷淋后按标准样照评定沾水等级（1~5级）。</p>
+          <div class="std-req"><b>指标要求：</b>防泼水通常≥4级；可经 DWR 整理获得。</div>
+          <p class="std-fail"><b>常见不合格：</b>DWR 助剂耐洗差、反复洗涤降级。</p>
+          <div class="std-tags"><span class="std-tag">功能</span><span class="std-tag">防泼水</span><span class="std-tag">GB/T 4745</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 18830</span>
+          <h3 class="std-name">防紫外线（UPF）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>防晒/户外服装面料</p>
+          <p class="std-row"><b>测试方法：</b>测定紫外线透射比，计算 UPF 值与 T(UVA) 透过率。</p>
+          <div class="std-req"><b>指标要求：</b>国标：UPF&gt;40 且 T(UVA)&lt;5% 方可标「防紫外线」；婴幼儿慎用。</div>
+          <p class="std-fail"><b>常见不合格：</b>浅色/稀薄面料 UPF 不足、未加抗紫外助剂。</p>
+          <div class="std-tags"><span class="std-tag">功能</span><span class="std-tag">UPF</span><span class="std-tag">GB/T 18830</span></div>
+        </div>
+      </div>
+      <div class="std-card">
+        <div class="std-head">
+          <span class="std-code">GB/T 5455</span>
+          <h3 class="std-name">阻燃性能（垂直法）</h3>
+        </div>
+        <div class="std-body">
+          <p class="std-row"><b>适用范围：</b>家居服、童装、装饰/防护服等</p>
+          <p class="std-row"><b>测试方法：</b>试样垂直燃烧，测定续燃/阴燃时间与损毁长度。</p>
+          <div class="std-req"><b>指标要求：</b>特定品类（如儿童睡衣、窗帘）有强制阻燃要求。</div>
+          <p class="std-fail"><b>常见不合格：</b>化纤面料未做阻燃整理、混纺配比不达标。</p>
+          <div class="std-tags"><span class="std-tag">功能</span><span class="std-tag">阻燃</span><span class="std-tag">GB/T 5455</span></div>
+        </div>
+      </div>
+      </div>
+    </section>
 
-</div><footer class="footer">
-  <div class="update-info">最后更新：<strong>2026-07-30</strong> ｜ 共收录 <strong>23</strong> 项标准（国标 13 / 行标 7 / 企标 3）</div>
+</div>
+
+<footer class="footer">
+  <div class="update-info">最后更新：<strong>2026-07-30</strong> ｜ 共收录 <strong>23</strong> 项标准 + <strong>30</strong> 项检测（国标 13 / 行标 7 / 企标 3）</div>
   <div class="platforms">权威来源：
     <a href="https://std.samr.gov.cn/" target="_blank" rel="noopener">全国标准信息公共服务平台</a><a href="https://www.qybz.org.cn/" target="_blank" rel="noopener">企业标准信息公共服务平台</a><a href="http://www.csres.com/" target="_blank" rel="noopener">标准网 csres.com</a>
   </div>
@@ -596,7 +1004,136 @@ if (location.hostname === 'jovienne0913.github.io') {
 </div>
 
 
+<script>
+// ===== 供应链知识库门禁 (形态A：后端真门禁；前端仅渲染 UX) =====
+// 主形态：8 位工号(103 开头) 核验，后端记载
+// 备选：配置企微凭据扫码 / 演示模式(无后端预览)
+(function(){
+  function $(id){return document.getElementById(id);}
+  var GATE = window.KB_GATE || {wecom:false, code:false, employee:true, mock:true};
 
-  <script src="gate.js"></script>
+  function removeMask(){
+    var m=$('scGate');if(!m)return;
+    m.style.transition='opacity .25s';m.style.opacity='0';
+    setTimeout(function(){
+      if(m.parentNode)m.parentNode.removeChild(m);
+      if(m.getAttribute('data-shell'))window.location.reload();
+    },250);
+  }
+  function authed(){removeMask();}
+  function showErr(msg){var e=$('scGateErr');if(e){e.textContent=msg||'';if(msg){e.classList.remove('shake');void e.offsetWidth;e.classList.add('shake');}}}
+  function setHint(html){var h=$('scGateHint');if(h)h.innerHTML=html;}
+  function hideWecom(){var qr=$('scGateQr');if(qr)qr.style.display='none';var d=$('scGateDivider');if(d)d.style.display='none';}
+  function focusCard(){try{var f=$('scGate').querySelector('.sc-gate-card');if(f){f.setAttribute('tabindex','-1');f.focus();}}catch(e){}}
+
+  // 工号核验
+  function startEmp(demo){
+    hideWecom();
+    var idI=$('scGateEmpId'), btn=$('scGateEmpBtn');
+    if(!idI||!btn)return;
+    function submit(){
+      var id=idI.value.trim();
+      if(!/^103\d{5}$/.test(id)){showErr('工号无效');return;}
+      if(demo){ showErr(''); authed(); return; }
+      showErr(''); btn.disabled=true; btn.textContent='验证中…';
+      fetch('/api/auth/employee',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({emp_id:id}),credentials:'same-origin'})
+        .then(function(r){return r.json().then(function(d){return {ok:r.ok&&d.ok,d:d};});})
+        .then(function(res){
+          if(res.ok){ authed(); }
+          else { showErr((res.d&&res.d.msg)||'验证失败'); btn.disabled=false; btn.textContent='验证进入'; }
+        })
+        .catch(function(){ showErr('网络异常，无法连接门禁服务'); btn.disabled=false; btn.textContent='验证进入'; });
+    }
+    btn.onclick=submit;
+    idI.addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+    idI.focus();
+  }
+
+  // 演示模式（无后端 / ?demo=1）
+  function showDemo(){
+    var d=$('scGateDemo');if(d)d.style.display='block';
+    hideWecom();
+    var de=$('scGateDemoEnter');
+    if(de)de.onclick=function(){
+      var id=$('scGateEmpId');
+      if(id&&/^103\d{5}$/.test(id.value.trim())){ showErr(''); authed(); }
+      else showErr('工号无效');
+    };
+    startEmp(true);
+  }
+
+  // 企业微信扫码（仅在配置企微凭据时）
+  function qrSVG(){
+    var N=25, cell=100/N, parts=['<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">','<rect width="100" height="100" fill="#fff"/>'];
+    var seed=20260730;
+    function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+    function finder(x,y){
+      parts.push('<rect x="'+(x*cell)+'" y="'+(y*cell)+'" width="'+(7*cell)+'" height="'+(7*cell)+'" fill="#1f2937"/>');
+      parts.push('<rect x="'+((x+1)*cell)+'" y="'+((y+1)*cell)+'" width="'+(5*cell)+'" height="'+(5*cell)+'" fill="#fff"/>');
+      parts.push('<rect x="'+((x+2)*cell)+'" y="'+((y+2)*cell)+'" width="'+(3*cell)+'" height="'+(3*cell)+'" fill="#1f2937"/>');
+    }
+    for(var y=0;y<N;y++){for(var x=0;x<N;x++){
+      if((x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9))continue;
+      if(rnd()>0.55){parts.push('<rect x="'+(x*cell)+'" y="'+(y*cell)+'" width="'+cell+'" height="'+cell+'" fill="#1f2937"/>');}
+    }}
+    finder(0,0);finder(N-7,0);finder(0,N-7);
+    parts.push('</svg>');return parts.join('');
+  }
+  function setQRState(s,badge,txt){
+    var qr=$('scGateQr');if(!qr)return;
+    qr.className='sc-gate-qr state-'+s;
+    var b=$('scGateBadge'),t=$('scGateMaskTxt');
+    if(b)b.textContent=badge;if(t)t.textContent=txt;
+  }
+  function poll(ticket){
+    var iv=setInterval(function(){
+      fetch('/api/auth/wecom/status?ticket='+encodeURIComponent(ticket),{credentials:'same-origin'})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(d.state==='scanned'){setQRState('scanned','✓','已在手机端扫描，请确认');setHint('已扫描 · 请在手机端点击<b>确认</b>');}
+        else if(d.state==='expired'){clearInterval(iv);setQRState('expired','!','二维码已过期');}
+        else if(d.state==='success'){clearInterval(iv);setHint('验证通过 · 正在进入…');authed();}
+      }).catch(function(){});
+    },2000);
+  }
+  function startWecom(ticket,loginUrl){
+    var qr=$('scGateQr');if(!qr)return;
+    qr.style.display='block';
+    qr.innerHTML='<iframe src="'+loginUrl+'" title="企业微信扫码登录" style="width:100%;height:100%;border:0;border-radius:6px;"></iframe>'
+      +'<div class="qr-fallback"><a href="'+loginUrl+'" target="_blank" rel="noopener">无法显示？点此在新窗口扫码</a></div>';
+    setHint('请使用企业微信 App 扫描上方二维码');
+    poll(ticket);
+  }
+
+  function isStaticHost(){
+    var h=location.hostname;
+    return h.indexOf('github.io')>=0 || h==='localhost' || h==='127.0.0.1' || h==='0.0.0.0';
+  }
+
+  function init(){
+    var mask=$('scGate');if(!mask)return;
+    if(/[?&]demo=1/.test(location.search)||isStaticHost()){showDemo();focusCard();return;}
+    fetch('/api/auth/me',{credentials:'same-origin'})
+      .then(function(r){return r.status===200?r.json().then(function(d){return{ok:true,d:d};}):{ok:false};})
+      .then(function(res){
+        if(res.ok){authed();return;}
+        return fetch('/api/auth/config',{credentials:'same-origin'})
+          .then(function(r){return r.json();})
+          .then(function(cfg){
+            GATE=cfg||GATE;
+            if(cfg&&cfg.employee){ startEmp(false); }
+            else if(cfg&&cfg.wecom){ fetch('/api/auth/wecom/qrcode',{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(d){startWecom(d.ticket,d.login_url);}).catch(function(){showDemo();}); }
+            else { showDemo(); }
+          })
+          .catch(function(){ showDemo(); });
+      })
+      .catch(function(){ showDemo(); });
+    focusCard();
+  }
+  if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
+})();
+
+</script>
 </body>
 </html>
